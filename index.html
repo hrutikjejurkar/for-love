@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>For My Dalindar ❤</title>
+  <style>
+    :root{
+      --bg1:#fff0f6; --bg2:#ffe6f0;
+      --card:#ffffff; --text:#222; --muted:#666; --accent:#ff477e;
+      --ok:#1aa34a; --err:#e03131;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
+      background: linear-gradient(135deg,var(--bg1),var(--bg2));
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      color:var(--text);
+    }
+    .card{
+      width:min(94vw,520px); background:var(--card); border-radius:18px; padding:26px;
+      box-shadow:0 18px 50px rgba(0,0,0,.12); text-align:center;
+    }
+    .heart{font-size:46px; display:inline-block; animation:beat 1.2s infinite}
+    @keyframes beat{0%,100%{transform:scale(1)}25%{transform:scale(1.08)}50%{transform:scale(.96)}75%{transform:scale(1.12)}}
+    h1{margin:.6rem 0 .2rem; font-size:1.4rem}
+    p{margin:.2rem 0 1rem; color:var(--muted)}
+    .input-row{display:flex; gap:10px; margin-top:10px}
+    input{flex:1; padding:12px 14px; border-radius:12px; border:1px solid #e8d7df; font-size:15px}
+    button{padding:12px 14px; border-radius:12px; border:none; background:var(--accent); color:#fff; font-weight:700; cursor:pointer}
+    button:active{transform:scale(.98)}
+    .msg{height:22px; margin-top:10px; font-size:.95rem}
+    .msg.ok{color:var(--ok)} .msg.err{color:var(--err)}
+    .hint{font-size:.88rem; color:var(--muted); margin-top:8px}
+    .shake{animation:shake .35s linear}
+    @keyframes shake{0%{transform:translateX(0)}25%{transform:translateX(-6px)}50%{transform:translateX(6px)}75%{transform:translateX(-6px)}100%{transform:translateX(0)}}
+    footer{margin-top:14px; font-size:.82rem; color:#9a9a9a}
+  </style>
+</head>
+<body>
+  <div class="card" id="card">
+    <div class="heart">💖</div>
+    <h1>Tell me the day jo main bulata hu</h1>
+    <p>Type the special name — agar sahi likha to aage khulega. 🥺🤞🏻💕</p>
+
+    <div class="input-row">
+      <input id="answer" placeholder="Type here..." autocomplete="off" />
+      <button id="goBtn">Submit</button>
+    </div>
+
+    <div class="msg" id="msg"></div>
+    <div class="hint">Hint: woh pyara naam jo main use karta hu — (lowercase 'dalindar')</div>
+    <footer>— With love, from you</footer>
+  </div>
+
+  <script>
+    const ansInput = document.getElementById('answer');
+    const goBtn = document.getElementById('goBtn');
+    const msg = document.getElementById('msg');
+    const card = document.getElementById('card');
+
+    function checkAnswer(){
+      const v = (ansInput.value || '').trim().toLowerCase();
+      if(v === 'dalindar'){
+        msg.textContent = 'Correct! Opening…'; msg.className = 'msg ok';
+        // allow viewing unlocked page in this session
+        sessionStorage.setItem('ok','1');
+        setTimeout(()=> window.location.href = 'index1.html', 600);
+      } else {
+        msg.textContent = 'Galat hai baccha, fir se try karo 😘'; msg.className = 'msg err';
+        card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
+      }
+    }
+
+    goBtn.addEventListener('click', checkAnswer);
+    ansInput.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') checkAnswer(); });
+    setTimeout(()=> ansInput.focus(), 200);
+  </script>
+</body>
+</html>
